@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - LARM</title>
+    <link rel="stylesheet" href="../static/core/css/style.css">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <div><strong><a href="/" style="color: white; text-decoration: none;">LARM</a></strong></div>
+        <div><a href="/cadastro" style="color: white; text-decoration: none;">Pedir Cadastro</a></div>
+    </div>
+
+    <div class="container">
+        <h2>Login</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Usuário" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
+        </form>
+    </div>
+
+    {% include 'footer.html' %}
+
+</body>
+
+</html>

@@ -1,0 +1,171 @@
+body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+}
+
+.container {
+        width: 30%;
+        max-width: 900px;
+        /* Define um limite para o tamanho do formulário */
+        margin: auto;
+        /* Centraliza */
+        padding: 15px;
+        position: relative;
+        z-index: 2;
+        /* Garante que o formulário fique acima do footer */
+}
+
+.container form {
+        display: flex;
+        flex-direction: column; /* Faz os campos ficarem em coluna */
+    }
+    
+    /* Ajusta todos os inputs e textarea */
+    .container form input,
+    .container form select,
+    .container form textarea {
+        max-width: 100%; /* Impede que fiquem maiores que o container */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 0 10px #ccc;
+        box-sizing: border-box; /* Impede que padding aumente a largura */
+    }
+
+.navbar {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background: #004085;
+        color: white;
+}
+
+input {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+
+}
+
+.buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 30px;
+
+}
+
+.button {
+        padding: 20px 40px;
+        font-size: 20px;
+        background: #004085;
+        color: white;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        border-radius: 5px;
+}
+
+button {
+        width: 100%;
+        padding: 10px;
+        background: #004085;
+        color: white;
+}
+
+.button:hover {
+        background: #002752;
+}
+
+button:hover {
+        background: #002752;
+}
+
+.textarea-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        max-width: 500px;
+        /* Define um limite para a largura */
+        margin: 10px 0;
+}
+
+.styled-textarea {
+        width: 100%;
+        /* Ocupará todo o espaço disponível na div */
+        height: 120px;
+        /* Altura fixa */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+        resize: none;
+        /* Impede redimensionamento */
+        outline: none;
+        /* Remove a borda azul padrão ao clicar */
+        transition: border-color 0.3s ease-in-out;
+}
+
+.styled-textarea:focus {
+        border-color: #007BFF;
+        /* Altera a cor ao focar */
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+main {
+        flex: 1;
+        /* Faz o conteúdo principal expandir para empurrar o footer para baixo */
+}
+
+.brief {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        border-left: 3px solid #ccc;
+        border-right: 3px solid #ccc;
+        border-bottom: 3px solid #ccc;
+    }
+    
+    .brief h2 {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    
+
+footer {
+        background-color: #474747;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        position: relative;
+        /* Remove "fixed" se estiver sendo usado */
+        width: 100%;
+        z-index: 1;
+        /* Mantém o footer abaixo do conteúdo */
+}
+
+/* link que ainda não foi visitado */
+a:link {
+        color: rgb(255, 255, 255);
+}
+
+/* link que foi visitado */
+a:visited {
+        color: rgb(255, 255, 255);
+}
+
+/* mouse over */
+a:hover {
+        color: #ffffff;
+}
+
+/* link selecionado */
+a:active {
+        color: rgb(255, 255, 255);
+}

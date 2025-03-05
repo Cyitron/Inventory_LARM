@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - LARM</title>
+    <link rel="stylesheet" href="../static/core/css/style.css">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div><strong><a href="/" style="color: white; text-decoration: none;">LARM</a></strong></div>
+        <div><a href="/login" style="color: white; text-decoration: none;">Login</a></div>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="container">
+        <h2>Cadastro</h2>
+        <p>Qual será seu vínculo com o LARM:</p>
+
+        <select id="tipo_usuario">
+            <option value="">Selecione</option>
+            <option value="aluno">Aluno</option>
+            <option value="tecnico">Técnico</option>
+            <option value="professor">Professor</option>
+            <option value="externo">Externo</option>
+        </select>
+
+        <form id="cadastroForm">
+            <input type="text" id="nome" placeholder="Nome Completo" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="text" id="telefone" placeholder="Telefone" required>
+
+            <div id="camposExtras"></div>
+
+            <button type="submit">Finalizar Cadastro</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("tipo_usuario").addEventListener("change", function () {
+            let tipo = this.value;
+            let camposExtras = document.getElementById("camposExtras");
+            camposExtras.innerHTML = "";
+
+            if (tipo === "aluno") {
+                camposExtras.innerHTML = `
+                    <input type="text" id="matricula" placeholder="Matrícula">
+                    <input type="text" id="curso" placeholder="Curso">
+                `;
+            } else if (tipo === "tecnico" || tipo === "professor") {
+                camposExtras.innerHTML = `<input type="text" id="siape" placeholder="SIAPE">`;
+                if (tipo === "professor") {
+                    camposExtras.innerHTML += `<input type="text" id="departamento" placeholder="Departamento">`;
+                }
+            } else if (tipo === "externo") {
+                camposExtras.innerHTML =
+                    `<div class="textarea-container">
+                    <label for="motivo">Explique seu interesse no laboratório e como ficou sabendo do projeto:</label>
+                    <textarea id="motivo" class="styled-textarea" placeholder="Digite sua resposta aqui..."></textarea>
+                </div>`;
+            }
+        });
+
+        document.getElementById("cadastroForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            let tipo = document.getElementById("tipo_usuario").value;
+            let nome = document.getElementById("nome").value;
+            let email = document.getElementById("email").value;
+            let telefone = document.getElementById("telefone").value;
+            let matricula = document.getElementById("matricula") ? document.getElementById("matricula").value : "";
+            let curso = document.getElementById("curso") ? document.getElementById("curso").value : "";
+            let siape = document.getElementById("siape") ? document.getElementById("siape").value : "";
+            let departamento = document.getElementById("departamento") ? document.getElementById("departamento").value : "";
+            let motivo = document.getElementById("motivo") ? document.getElementById("motivo").value : "";
+
+            let formURL = "https://docs.google.com/forms/d/e/SEU_FORM_ID/viewform";
+
+            let params = new URLSearchParams();
+            params.append("entry.CODIGO_NOME", nome);
+            params.append("entry.CODIGO_EMAIL", email);
+            params.append("entry.CODIGO_TELEFONE", telefone);
+
+            if (tipo === "aluno") {
+                params.append("entry.CODIGO_MATRICULA", matricula);
+                params.append("entry.CODIGO_CURSO", curso);
+            } else if (tipo === "tecnico" || tipo === "professor") {
+                params.append("entry.CODIGO_SIAPE", siape);
+                if (tipo === "professor") {
+                    params.append("entry.CODIGO_DEPARTAMENTO", departamento);
+                }
+            } else if (tipo === "externo") {
+                params.append("entry.CODIGO_MOTIVO", motivo);
+            }
+
+            window.location.href = formURL + "?" + params.toString();
+        });
+    </script>
+
+    {% include 'footer.html' %}
+
+</body>
+
+</html>
