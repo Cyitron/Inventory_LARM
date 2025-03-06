@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventário - LARM</title>
+    <link rel="stylesheet" href="../static/core/css/style.css">
+</head>
+<body>
+    {% include 'main_navbar.html' %}
+
+    <div class="inventory-container">
+        <!-- Barra lateral -->
+        <nav class="sidebar">
+            <ul>
+                <li><a href="#">Cadastro de Itens</a></li>
+                <li><a href="#">Baixa</a></li>
+                <li><a href="#">Empréstimo</a></li>
+                <li><a href="#">Relatório</a></li>
+            </ul>
+        </nav>
+
+        <!-- Área dos dashboards -->
+        <main class="dashboard">
+            <h1>Visão Geral do Inventário</h1>
+            <p>Aqui serão exibidos os gráficos e estatísticas do inventário.</p>
+            <div class="dashboard-content">
+                <div class="chart">📊 Gráfico 1</div>
+                <div class="chart">📈 Gráfico 2</div>
+                <div class="chart">📉 Gráfico 3</div>
+            </div>
+        </main>
+    </div>
+
+    {% include 'footer.html' %}
+</body>
+</html>

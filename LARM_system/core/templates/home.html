@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -10,10 +11,7 @@
 
 <body>
 
-    <div class="navbar">
-        <div><strong><a href="/" style="color: white; text-decoration: none;">LARM</a></strong></div>
-        <div><img src="../static/core/imgs/brasao_UFSC.jpg" alt="Universidade" height="30"></div>
-    </div>
+    {% include 'main_navbar.html' %}
 
     <div class="brief">
         <h2>Bem vindo ao sistema do LARM!</h2>

@@ -22,20 +22,23 @@ body {
 
 .container form {
         display: flex;
-        flex-direction: column; /* Faz os campos ficarem em coluna */
-    }
-    
-    /* Ajusta todos os inputs e textarea */
-    .container form input,
-    .container form select,
-    .container form textarea {
-        max-width: 100%; /* Impede que fiquem maiores que o container */
+        flex-direction: column;
+        /* Faz os campos ficarem em coluna */
+}
+
+/* Ajusta todos os inputs e textarea */
+.container form input,
+.container form select,
+.container form textarea {
+        max-width: 100%;
+        /* Impede que fiquem maiores que o container */
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 10px;
         box-shadow: 0 0 10px #ccc;
-        box-sizing: border-box; /* Impede que padding aumente a largura */
-    }
+        box-sizing: border-box;
+        /* Impede que padding aumente a largura */
+}
 
 .navbar {
         display: flex;
@@ -130,13 +133,13 @@ main {
         border-left: 3px solid #ccc;
         border-right: 3px solid #ccc;
         border-bottom: 3px solid #ccc;
-    }
-    
-    .brief h2 {
+}
+
+.brief h2 {
         text-align: center;
         margin-bottom: 15px;
-    }
-    
+}
+
 
 footer {
         background-color: #474747;
@@ -168,4 +171,100 @@ a:hover {
 /* link selecionado */
 a:active {
         color: rgb(255, 255, 255);
+}
+
+.menu-container {
+        flex-grow: 1;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px;
+}
+
+.menu-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 300px;
+        height: 150px;
+        background-color: #004085;
+        color: #fff;
+        text-decoration: none;
+        font-size: 24px;
+        border-radius: 10px;
+        font-weight: bold;
+        text-align: center;
+}
+
+.menu-button:hover {
+        background-color: #0056b3;
+}
+
+.menu-button.disabled {
+        background-color: #cccccc;
+        opacity: 0.6;
+        pointer-events: none;
+        cursor: default;
+}
+
+/* Layout geral */
+.inventory-container {
+        display: flex;
+        min-height: 100vh;
+}
+
+/* Barra lateral */
+.sidebar {
+        width: 250px;
+        background-color: #333;
+        padding: 20px;
+        min-height: 100vh;
+}
+
+.sidebar ul {
+        list-style: none;
+        padding: 0;
+}
+
+.sidebar li {
+        margin-bottom: 10px;
+}
+
+.sidebar a {
+        display: block;
+        padding: 10px;
+        color: white;
+        text-decoration: none;
+        background-color: #444;
+        border-radius: 5px;
+}
+
+.sidebar a:hover {
+        background-color: #555;
+}
+
+/* Área dos dashboards */
+.dashboard {
+        flex-grow: 1;
+        padding: 20px;
+        background-color: #f4f4f4;
+}
+
+/* Simulação de gráficos */
+.dashboard-content {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+}
+
+.chart {
+        width: 30%;
+        height: 150px;
+        background-color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }

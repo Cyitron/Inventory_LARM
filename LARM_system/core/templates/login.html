@@ -1,6 +1,6 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
 
     <div class="navbar">
         <div><strong><a href="/" style="color: white; text-decoration: none;">LARM</a></strong></div>
-        <div><a href="/cadastro" style="color: white; text-decoration: none;">Pedir Cadastro</a></div>
+        <div><a href="{% url 'cadastro' %}" style="color: white; text-decoration: none;">Pedir Cadastro</a></div>
     </div>
 
     <div class="container">

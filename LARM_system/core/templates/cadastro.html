@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt">
 
@@ -13,7 +14,7 @@
     <!-- Navbar -->
     <div class="navbar">
         <div><strong><a href="/" style="color: white; text-decoration: none;">LARM</a></strong></div>
-        <div><a href="/login" style="color: white; text-decoration: none;">Login</a></div>
+        <div><a href="{% url 'login' %}" style="color: white; text-decoration: none;">Login</a></div>
     </div>
 
     <!-- Conteúdo -->
