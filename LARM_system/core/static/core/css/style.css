@@ -228,6 +228,7 @@ a:active {
 }
 
 .sidebar li {
+        position: relative;
         margin-bottom: 10px;
 }
 
@@ -238,10 +239,96 @@ a:active {
         text-decoration: none;
         background-color: #444;
         border-radius: 5px;
+        transition: background 0.3s ease-in-out;
 }
 
 .sidebar a:hover {
         background-color: #555;
+}
+
+/* submenu config */
+.submenu {
+        display: block;
+        opacity: 0;
+        /* Começa invisível */
+        max-height: 0;
+        /* Ocupa zero espaço */
+        overflow: hidden;
+        transition: opacity 0.4s ease-in-out, max-height 0.4s ease-in-out;
+        background-color: #555;
+        /* Cor diferente do menu principal */
+        border-radius: 5px;
+        padding-left: 15px;
+        /* Levemente mais à direita */
+        margin-left: 10px;
+        /* Empurra um pouco para a direita */
+}
+
+/* Estilo para os botões principais da sidebar */
+.dropdown-toggle {
+        display: block;
+        padding: 12px;
+        color: white;
+        background-color: #444;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background 0.3s ease-in-out;
+}
+
+.dropdown-toggle:hover {
+        background-color: #555;
+}
+
+/* Remove aparência de link */
+.dropdown-toggle:active,
+.dropdown-toggle:focus {
+        outline: none;
+}
+
+/* Configuração do submenu */
+.submenu {
+        display: block;
+        opacity: 0;
+        /* Começa invisível */
+        max-height: 0;
+        /* Ocupa zero espaço */
+        overflow: hidden;
+        transition: opacity 0.4s ease-in-out, max-height 0.4s ease-in-out;
+        background-color: #555;
+        /* Cor diferente do menu principal */
+        border-radius: 5px;
+        padding-left: 15px;
+        /* Levemente mais à direita */
+        margin-left: 10px;
+        /* Empurra um pouco para a direita */
+}
+
+/* Estilo dos links do submenu */
+.submenu li a {
+        display: block;
+        padding: 10px;
+        color: white;
+        text-decoration: none;
+        background-color: #666;
+        /* Um tom mais claro que o submenu */
+        border-radius: 5px;
+        transition: background 0.3s ease-in-out;
+}
+
+.submenu li a:hover {
+        background-color: #777;
+}
+
+/* Mostra o submenu ao passar o mouse */
+.dropdown:hover .submenu {
+        opacity: 1;
+        max-height: 200px;
+}
+/* submenu config */
+
+.submenu li a:hover {
+        background-color: #777;
 }
 
 /* Área dos dashboards */

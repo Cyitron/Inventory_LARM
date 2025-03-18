@@ -6,8 +6,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventário - LARM</title>
-    <link rel="stylesheet" href="../static/core/css/style.css">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
 </head>
+
 <body>
     {% include 'main_navbar.html' %}
 
@@ -15,12 +16,37 @@
         <!-- Barra lateral -->
         <nav class="sidebar">
             <ul>
-                <li><a href="#">Cadastro de Itens</a></li>
-                <li><a href="#">Baixa</a></li>
-                <li><a href="#">Empréstimo</a></li>
-                <li><a href="#">Relatório</a></li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Cadastro de Itens ⬇</span>
+                    <ul class="submenu">
+                        <li><a href="#">Material de Consumo</a></li>
+                        <li><a href="#">Material Permanente</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Baixa ⬇</span>
+                    <ul class="submenu">
+                        <li><a href="#">Por Defeito</a></li>
+                        <li><a href="#">Por Descarte</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Empréstimo ⬇</span>
+                    <ul class="submenu">
+                        <li><a href="#">Novo Empréstimo</a></li>
+                        <li><a href="#">Devolução</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <span class="dropdown-toggle">Relatório ⬇</span>
+                    <ul class="submenu">
+                        <li><a href="#">Estoque Atual</a></li>
+                        <li><a href="#">Histórico de Movimentação</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
+
 
         <!-- Área dos dashboards -->
         <main class="dashboard">
@@ -36,4 +62,5 @@
 
     {% include 'footer.html' %}
 </body>
+
 </html>
