@@ -41,7 +41,7 @@ INSTALLED_APPS = [
 
     # inclusões extras para o projeto
     'core',
-    'account.apps.AccountConfig',
+    'account',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +81,12 @@ WSGI_APPLICATION = 'LARM_system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': str(BASE_DIR / 'db.sqlite3'),  # Convertendo para string
+        'NAME': str(BASE_DIR / 'db.sqlite3'),
+        # 'ENGINE': 'django.db.backends.postgreslq',
+        # 'NAME': '',
+        # 'USER': '',
+        # 'PASSWORD': '',
+        # 'HOST': ''
     }
 }
 
@@ -111,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 

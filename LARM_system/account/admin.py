@@ -6,7 +6,8 @@ from django.contrib.auth.admin import UserAdmin
 class AccountInLine(admin.StackedInline):
     model = Account
     can_delete = False # coloquei falso para nenhuma conta ser excluida sem excluir o usuario associado a ela (se excluir o usuario a account vai ser excluida)
-    verbose_name_plural = 'Accounts'
+    verbose_name_plural = 'Accounts',
+    readonly_fields = ('enter_date',)  # Torna o campo visível, mas não editável
 
 class CustomizedUserAdmin(UserAdmin):
     inlines = (AccountInLine, )

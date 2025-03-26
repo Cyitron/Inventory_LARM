@@ -4,41 +4,48 @@ from django.contrib.auth.models import User
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    type_of_user = models.CharField(
+    # campos obrigatórios do usuario preencher
+    tipo_usuario = models.CharField(
         "Vinculo",
         max_length= 9,
         choices=[
-            ('aluno', 'aluno'),
-            ('professor','professor'),
-            ('servidor','servidor'),
-            ('externo', 'externo')
-        ]
+            ('aluno', 'Aluno'),
+            ('professor','Professor'),
+            ('servidor','Servidor'),
+            ('externo', 'Externo')
+        ],
+        default='aluno'
     )
 
-    name = models.CharField(
+    nome = models.CharField(
         "Nome Completo",
         max_length=100,
+        default='fulano'
     )
 
     email = models.EmailField(
         "E-mail",
-        unique=True
+        unique=True,
+        default='default@default.com'
     )
 
-    cell_number = models.CharField(
-        "(DDD)99999-9999",
+    telefone = models.CharField(
+        "Telefone",
         unique=True,
-        max_length=15
-    ) #(DDD)99999-9999
+        max_length=15,
+        default='(999)99999-9999'
+    )
 
-    photo = models.ImageField(
+    # foto opcional por enquanto
+    foto = models.ImageField(
         "Foto",
         upload_to="perfil_fotos/",
         blank=True,
         null=True
     )
 
-    course = models.CharField(
+    # campos que deverão ser preechidos dependendo do vinculo do inscrito
+    curso = models.CharField(
         "Curso",
         max_length=4,
         choices=[
@@ -52,7 +59,7 @@ class Account(models.Model):
         null=True
     )
 
-    departament = models.CharField(
+    departamento = models.CharField(
         "Departamento",
         max_length=4,
         choices=[
@@ -81,15 +88,24 @@ class Account(models.Model):
     )
 
     # os campos abaixo serão preenchidos pelo sistema ou por um admin
-    enter_date = models.DateField(
-        "data de inscrição",
-        auto_now_add=True
+    is_active = models.BooleanField(
+        "Usuario ativo",
+        default=False,
+        choices=[
+            (True, 'Sim'),
+            (False, 'Não')
+        ]
     )
 
     aprov_date = models.DateField(
         "data de aprovação",
         null=True,
         blank=True
+    )
+
+    enter_date = models.DateField(
+        "data de inscrição",
+        auto_now_add=True
     )
     
     # ===================================

@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('', home, name='home'),  # Página inicial
+    path("account/", include("account.urls"))  # Isso garante que as URLs do app Account sejam usadas
+
 ]

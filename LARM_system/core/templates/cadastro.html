@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - LARM</title>
-    <link rel="stylesheet" href="../static/core/css/style.css">
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
 </head>
 
 <body>
@@ -19,81 +19,51 @@
 
     <!-- Conteúdo -->
     <div class="container">
-        <h2>Cadastro</h2>
+        <h2>Pedido de Cadastro</h2>
         <p>Qual será seu vínculo com o LARM:</p>
 
-        <select id="tipo_usuario">
+        <select id="tipo_usuario" onchange="atualizarCamposExtras()">
             <option value="">Selecione</option>
             <option value="aluno">Aluno</option>
-            <option value="tecnico">Técnico</option>
+            <option value="servidor">Servidor</option>
             <option value="professor">Professor</option>
             <option value="externo">Externo</option>
         </select>
 
-        <form id="cadastroForm">
-            <input type="text" id="nome" placeholder="Nome Completo" required>
-            <input type="email" id="email" placeholder="Email" required>
-            <input type="text" id="telefone" placeholder="Telefone" required>
+        <form id="cadastroForm" method="post" action="{% url 'cadastrar_usuario' %}">
+            <input type="text" id="nome" name="nome" placeholder="Nome Completo" required>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <input type="text" id="telefone" name="telefone" placeholder="Telefone" required>
 
             <div id="camposExtras"></div>
 
-            <button type="submit">Finalizar Cadastro</button>
+            <button type="submit">Finalizar Pedido</button>
         </form>
     </div>
 
     <script>
-        document.getElementById("tipo_usuario").addEventListener("change", function () {
-            let tipo = this.value;
+        function atualizarCamposExtras() {
+            let tipo = document.getElementById("tipo_usuario").value;
             let camposExtras = document.getElementById("camposExtras");
-            camposExtras.innerHTML = "";
+
+            camposExtras.innerHTML = "";  // Limpa os campos antes de adicionar novos
 
             if (tipo === "aluno") {
                 camposExtras.innerHTML = `
-                    <input type="text" id="matricula" placeholder="Matrícula">
-                    <input type="text" id="curso" placeholder="Curso">
+                    <input type="text" id="matricula" name="matricula" placeholder="Matrícula" required>
+                    <input type="text" id="curso" name="curso" placeholder="Curso" required>
                 `;
-            } else if (tipo === "tecnico" || tipo === "professor") {
-                camposExtras.innerHTML = `<input type="text" id="siape" placeholder="SIAPE">`;
+            } else if (tipo === "servidor" || tipo === "professor") {
+                camposExtras.innerHTML = `
+                    <input type="text" id="siape" name="siape" placeholder="SIAPE" required>
+                `;
                 if (tipo === "professor") {
-                    camposExtras.innerHTML += `<input type="text" id="departamento" placeholder="Departamento">`;
+                    camposExtras.innerHTML += `
+                        <input type="text" id="departamento" name="departamento" placeholder="Departamento" required>
+                    `;
                 }
             }
-        });
-
-        document.getElementById("cadastroForm").addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            let tipo = document.getElementById("tipo_usuario").value;
-            let nome = document.getElementById("nome").value;
-            let email = document.getElementById("email").value;
-            let telefone = document.getElementById("telefone").value;
-            let matricula = document.getElementById("matricula") ? document.getElementById("matricula").value : "";
-            let curso = document.getElementById("curso") ? document.getElementById("curso").value : "";
-            let siape = document.getElementById("siape") ? document.getElementById("siape").value : "";
-            let departamento = document.getElementById("departamento") ? document.getElementById("departamento").value : "";
-            let motivo = document.getElementById("motivo") ? document.getElementById("motivo").value : "";
-
-            let formURL = "https://docs.google.com/forms/d/e/SEU_FORM_ID/viewform";
-
-            let params = new URLSearchParams();
-            params.append("entry.CODIGO_NOME", nome);
-            params.append("entry.CODIGO_EMAIL", email);
-            params.append("entry.CODIGO_TELEFONE", telefone);
-
-            if (tipo === "aluno") {
-                params.append("entry.CODIGO_MATRICULA", matricula);
-                params.append("entry.CODIGO_CURSO", curso);
-            } else if (tipo === "tecnico" || tipo === "professor") {
-                params.append("entry.CODIGO_SIAPE", siape);
-                if (tipo === "professor") {
-                    params.append("entry.CODIGO_DEPARTAMENTO", departamento);
-                }
-            } else if (tipo === "externo") {
-                params.append("entry.CODIGO_MOTIVO", motivo);
-            }
-
-            window.location.href = formURL + "?" + params.toString();
-        });
+        }
     </script>
 
     {% include 'footer.html' %}
