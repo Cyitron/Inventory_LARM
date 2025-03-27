@@ -19,3 +19,14 @@ def inventario(request):
 
 def admin_cadastro(request):
     return render(request, "admin-cadastro.html")
+
+from django.shortcuts import render
+from .models import MaterialConsumo, MaterialPermanente
+
+def estoque_atual(request):
+    materiais_consumo = MaterialConsumo.objects.select_related('id_item').all()
+    materiais_permanentes = MaterialPermanente.objects.select_related('id_item').all()
+    return render(request, 'estoque.html', {
+        'materiais_consumo': materiais_consumo,
+        'materiais_permanentes': materiais_permanentes
+    })
