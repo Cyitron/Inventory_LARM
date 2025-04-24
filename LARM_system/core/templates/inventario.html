@@ -38,11 +38,19 @@
                     </ul>
                 </li>
                 <li class="dropdown">
+                    {% if can_report %}
                     <span class="dropdown-toggle">Relatório ⬇</span>
                     <ul class="submenu">
                         <li><a href="{% url 'estoque_atual' %}">Estoque Atual</a></li>
                         <li><a href="#">Histórico de Movimentação</a></li>
                     </ul>
+                    {% else %}
+                    <span class="dropdown-toggle">Relatório ⬇</span>
+                    <ul class="submenu">
+                        <li><div class="menu-button disabled">Estoque Atual</div></li>
+                        <li><div class="menu-button disabled">Histórico de Movimentação</div></li>
+                    </ul>
+                    {% endif %}
                 </li>
             </ul>
         </nav>

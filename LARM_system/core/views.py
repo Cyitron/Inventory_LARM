@@ -61,6 +61,7 @@ def main_menu(request):
     # Só habilita se tiver permissão 2 (inventário) e 1 (cadastro/admin)
     can_inventario = 2 in permissoes_ativas
     can_cadastro   = 1 in permissoes_ativas
+    # can_delete = 3 in permissoes_ativas
 
     return render(request, "main_menu.html", {
         "usuario": usuario,
@@ -69,7 +70,26 @@ def main_menu(request):
     })
 
 def inventario(request):
-    return render(request, 'inventario.html')
+    user_id = request.session.get("user_id")
+    # if not user_id:
+    #     return redirect("login")
+    
+    usuario = Usuario.objects.get(id_user=user_id)
+
+    # Busca IDs de permissão ativas para este usuário
+    permissoes_ativas = Permicoes.objects.filter(
+        id_user=usuario, permicao_active=True
+    ).values_list('id_permicao__id_permicao', flat=True)
+    permissoes_ativas = set(permissoes_ativas)
+
+    can_report = 3 in permissoes_ativas
+    can_inventario = 2 in permissoes_ativas
+
+    return render(request, 'inventario.html', {
+        "usuario": usuario,
+        "can_inventario:": can_inventario,
+        "can_report": can_report
+    })
 
 @csrf_exempt
 def admin_cadastro(request):
