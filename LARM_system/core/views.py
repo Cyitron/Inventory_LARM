@@ -95,7 +95,7 @@ def admin_cadastro(request):
                 rel.permicao_active = ativo
                 rel.save()
 
-        return redirect("admin_cadastro")
+        return redirect("admin-cadastro")
 
     # GET: montar lista de usuários com seu set de permissões ativas
     usuarios = list(Usuario.objects.all())
