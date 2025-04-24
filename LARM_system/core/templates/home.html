@@ -1,41 +1,30 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home - ERP LARM</title>
+    <link rel="stylesheet" href="{% static 'core/css/pages/home/home.css' %}" />
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - LARM</title>
-    <link rel="stylesheet" href="../static/core/css/style.css">
-</head>
-
-<body>
-
+  <body>
     {% include 'main_navbar.html' %}
 
-    <div class="brief">
-        <h2>Bem vindo ao sistema do LARM!</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-            anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-            nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-            anim id est laborum.</p>
-    </div>
-
-
-    <div class="container">
-        <div class="buttons">
-            <a href="/login" class="button">LOGIN</a>
-            <a href="/cadastro" class="button">CADASTRO</a>
+    <div class="main-content">
+      <div class="home-container">
+        <h1>ERP LARM</h1>
+        <p>
+          O ERP desenvolvido pelo Laboratório de Automação e Robótica Móvel é um sistema desenvolvido para realizar o
+          controle e manutenção de estoque do laboratório de robótica.
+        </p>
+        <div class="home-buttons">
+          <a href="/login" class="button">LOGIN</a>
+          <a href="/cadastro" class="button">CADASTRO</a>
         </div>
+      </div>
     </div>
 
     {% include 'footer.html' %}
-
-</body>
-
+  </body>
 </html>

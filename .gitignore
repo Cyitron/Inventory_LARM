@@ -1,2 +1,6 @@
 .env
 .gitignore
+/LARM_system
+/core/__pycache__
+/core/migrations
+/account
