@@ -1,14 +1,47 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="pt">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - LARM</title>
-    <link rel="stylesheet" href="../static/core/css/style.css">
+    <title>Admin – Gerenciar Usuários</title>
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
 </head>
 <body>
+    {% include 'main_navbar.html' %}
 
+    <div class="container">
+        <h1>Gerenciar Usuários</h1>
+
+        {% for usuario in usuarios %}
+        <form method="POST" action="{% url 'admin-cadastro' %}"
+              style="border:1px solid #ccc; padding:10px; margin-bottom:20px;">
+            {% csrf_token %}
+            <input type="hidden" name="user_id" value="{{ usuario.id_user }}">
+
+            <h2>{{ usuario.nome }} &nbsp;(<small>{{ usuario.email }}</small>)</h2>
+            <p><strong>Telefone:</strong> {{ usuario.telefone }}</p>
+            <p>
+                <label>
+                    <strong>Ativo:</strong>
+                    <input type="checkbox" name="is_active"
+                           {% if usuario.is_active %}checked{% endif %}>
+                </label>
+            </p>
+
+            <h3>Permissões:</h3>
+            {% for p in permissoes %}
+                <label>
+                    <input type="checkbox" name="perm_{{ p.id_permicao }}"
+                           {% if p.id_permicao in usuario.active_perms %}checked{% endif %}>
+                    {{ p.descricao }}
+                </label><br>
+            {% endfor %}
+
+            <button type="submit">Salvar alterações</button>
+        </form>
+        {% endfor %}
+    </div>
+
+    {% include 'footer.html' %}
 </body>
 </html>

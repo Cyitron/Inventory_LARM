@@ -4,22 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - LARM</title>
-    <link rel="stylesheet" href="../static/core/css/style.css">
+    <title>Login – LARM</title>
+    <link rel="stylesheet" href="{% static 'core/css/style.css' %}">
 </head>
-
 <body>
 
     <div class="navbar">
-        <div><a href="/"><img src="../static/core/imgs/LogoLARM.png" alt="LARM" height="30"></a></div>
-        <div><a href="{% url 'cadastro' %}" style="color: white; text-decoration: none;">Pedir Cadastro</a></div>
+        <div>
+            <a href="/"><img src="{% static 'core/imgs/LogoLARM.png' %}" alt="LARM" height="30"></a>
+        </div>
+        <div>
+            <a href="{% url 'cadastro' %}" style="color: white; text-decoration: none;">Pedir Cadastro</a>
+        </div>
     </div>
 
     <div class="container">
         <h2>Login</h2>
-        <form method="POST">
+
+        {% if messages %}
+            <ul class="messages">
+                {% for m in messages %}
+                    <li class="message {{ m.tags }}">{{ m }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <form id="login_form" method="POST" action="{% url 'login' %}">
             {% csrf_token %}
-            <input type="text" name="username" placeholder="Usuário" required>
+            <input type="text" name="username" placeholder="Usuário (nome completo)" required>
             <input type="password" name="password" placeholder="Senha" required>
             <button type="submit">Entrar</button>
         </form>
@@ -28,5 +40,4 @@
     {% include 'footer.html' %}
 
 </body>
-
 </html>

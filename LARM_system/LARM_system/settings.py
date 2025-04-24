@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     # inclusões extras para o projeto
     'core',
     'account',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -137,3 +138,10 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Tempo de vida do cookie de sessão (em segundos). Aqui: 1h.
+SESSION_COOKIE_AGE = 3600
+# Opcional: expirar a sessão ao fechar o navegador
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+# (Opcional) Renova o cookie a cada requisição
+SESSION_SAVE_EVERY_REQUEST = True

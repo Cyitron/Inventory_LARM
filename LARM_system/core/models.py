@@ -29,16 +29,6 @@ class AccountAccount(models.Model):
         db_table = 'account_account'
 
 
-class Aluno(models.Model):
-    matricula = models.IntegerField(unique=True, blank=True, null=True)
-    curso = models.TextField(blank=True, null=True)
-    id_user = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_user', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'aluno'
-
-
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150)
 
@@ -120,15 +110,6 @@ class Consumo(models.Model):
         db_table = 'consumo'
 
 
-class Departamento(models.Model):
-    id_departamento = models.AutoField(primary_key=True)
-    nome_departamento = models.TextField()
-
-    class Meta:
-        managed = False
-        db_table = 'departamento'
-
-
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
     object_id = models.TextField(blank=True, null=True)
@@ -185,25 +166,6 @@ class Emprestimo(models.Model):
         db_table = 'emprestimo'
 
 
-class Externo(models.Model):
-    id_user = models.OneToOneField('Usuario', models.DO_NOTHING, db_column='id_user', primary_key=True)  # The composite primary key (id_user, id_inst) found, that is not supported. The first column is selected.
-    id_inst = models.ForeignKey('Instituicao', models.DO_NOTHING, db_column='id_inst')
-
-    class Meta:
-        managed = False
-        db_table = 'externo'
-        unique_together = (('id_user', 'id_inst'),)
-
-
-class Instituicao(models.Model):
-    id_inst = models.AutoField(primary_key=True)
-    nome_inst = models.TextField()
-
-    class Meta:
-        managed = False
-        db_table = 'instituicao'
-
-
 class Item(models.Model):
     id_item = models.AutoField(primary_key=True)
     descricao = models.TextField(blank=True, null=True)
@@ -229,7 +191,7 @@ class MaterialPermanente(models.Model):
     id_item = models.OneToOneField(Item, models.DO_NOTHING, db_column='id_item', primary_key=True)
     data_baixa = models.DateField(blank=True, null=True)
     valor = models.FloatField(blank=True, null=True)
-    id_patrimonio = models.TextField(unique=True, blank=True, null=True)
+    id_patrimonio = models.IntegerField(unique=True, blank=True, null=True)
     situacao = models.TextField(blank=True, null=True)
     data_registro = models.DateField(blank=True, null=True)
 
@@ -238,35 +200,86 @@ class MaterialPermanente(models.Model):
         db_table = 'material_permanente'
 
 
+class Permicao(models.Model):
+    id_permicao = models.IntegerField(primary_key=True)
+    descricao = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'permicao'
+
+
+class Permicoes(models.Model):
+    id_user = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_user')
+    id_permicao = models.ForeignKey('Permicao', models.DO_NOTHING, db_column='id_permicao')
+    permicao_active = models.BooleanField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'permicoes'
+        unique_together = (('id_user', 'id_permicao'),)
+
+
+class Usuario(models.Model):
+    id_user = models.AutoField(primary_key=True)
+    telefone = models.CharField(max_length=20, blank=True, null=True)
+    nome = models.TextField()
+    data_aprovacao = models.DateField(blank=True, null=True)
+    is_active = models.BooleanField(blank=True, null=True)
+    tipo_user = models.IntegerField(blank=True, null=True)
+    email = models.CharField(unique=True, max_length=255, blank=True, null=True)
+    password = models.CharField(max_length=128)
+
+    class Meta:
+        managed = False
+        db_table = 'usuario'
+
+class Aluno(models.Model):
+    id_user = models.OneToOneField(Usuario, on_delete=models.CASCADE, db_column='id_user', primary_key=True)
+    matricula = models.IntegerField()
+    curso = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'aluno'
+
+class Servidor(models.Model):
+    siare = models.IntegerField(unique=True, blank=True, null=True)
+    id_user = models.OneToOneField('Usuario', on_delete=models.CASCADE, db_column='id_user', primary_key=True)
+
+    class Meta:
+        managed = False
+        db_table = 'servidor'
+
+class Departamento(models.Model):
+    id_departamento = models.AutoField(primary_key=True)
+    nome_departamento = models.TextField()
+
+    class Meta:
+        managed = False
+        db_table = 'departamento'
+
 class Professor(models.Model):
     siare = models.IntegerField(unique=True, blank=True, null=True)
-    id_user = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_user', blank=True, null=True)
+    id_user = models.OneToOneField('Usuario', on_delete=models.CASCADE, db_column='id_user', primary_key=True)
     id_departamento = models.ForeignKey(Departamento, models.DO_NOTHING, db_column='id_departamento', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'professor'
 
-
-class Servidor(models.Model):
-    siare = models.IntegerField(unique=True, blank=True, null=True)
-    id_user = models.ForeignKey('Usuario', models.DO_NOTHING, db_column='id_user', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'servidor'
-
-
-class Usuario(models.Model):
-    id_user = models.AutoField(primary_key=True)
-    telefone = models.CharField(max_length=20, blank=True, null=True)
-    is_admin = models.BooleanField(blank=True, null=True)
-    nome = models.TextField()
-    data_aprovacao = models.DateField(blank=True, null=True)
-    is_active = models.BooleanField(blank=True, null=True)
-    tipo_user = models.IntegerField(blank=True, null=True)
-    email = models.CharField(unique=True, max_length=255, blank=True, null=True)
+class Instituicao(models.Model):
+    id_inst = models.AutoField(primary_key=True)
+    nome_inst = models.TextField()
 
     class Meta:
         managed = False
-        db_table = 'usuario'
+        db_table = 'instituicao'
+
+class Externo(models.Model):
+    id_user = models.OneToOneField(Usuario, on_delete=models.CASCADE, db_column='id_user', primary_key=True)
+    id_inst = models.ForeignKey(Instituicao, models.DO_NOTHING, db_column='id_inst', blank=True, null=True)  # ou ForeignKey se você tiver a tabela de instituições
+
+    class Meta:
+        managed = False
+        db_table = 'externo'
