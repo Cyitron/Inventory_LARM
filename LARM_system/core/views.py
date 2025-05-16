@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import MaterialConsumo, MaterialPermanente, Usuario, Permicao, Permicoes
+from .models import MaterialConsumo, MaterialPermanente, Usuario, Permicao, Permicoes, Item
 from django.contrib import messages
+from django.utils import timezone
+from datetime import datetime
+import pandas as pd
 from django.contrib.auth.hashers import check_password
 from django.views.decorators.csrf import csrf_exempt
 
@@ -143,3 +146,137 @@ def estoque_atual(request):
         'materiais_consumo': materiais_consumo,
         'materiais_permanentes': materiais_permanentes
     })
+
+def cadastro_item_perm(request):
+    if request.method == "POST":
+        # Só processa o envio de Excel
+        if request.POST.get("acao") == "importar_excel" and request.FILES.get("arquivo"):
+            arquivo = request.FILES["arquivo"]
+            try:
+                # 1) Lê planilha sem header
+                df_raw = pd.read_excel(arquivo, engine="openpyxl", header=None)
+
+                # 2) Encontra a linha que menciona "LARM"
+                mask = df_raw.apply(lambda col: col.astype(str).str.contains("LARM", na=False)).any(axis=1)
+                if not mask.any():
+                    messages.error(request, "Não foi encontrada a seção LARM no arquivo.")
+                    return redirect("cadastro_item_perm")
+                idx_larm = mask[mask].index[0]
+
+                # 3) Cabeçalho está duas linhas abaixo
+                idx_header = idx_larm + 2
+                df_raw.columns = df_raw.iloc[idx_header]
+
+                # DEBUG: imprima os cabeçalhos para ver exatamente os nomes
+                print("=== CABEÇALHOS DETECTADOS ===")
+                for col in df_raw.columns:
+                    print(f"'{col}'")
+
+                # 4) Dados reais começam na linha seguinte
+                df = df_raw.iloc[idx_header+1:].copy()
+
+                # 5) Filtra linhas até encontrar a primeira linha em branco na coluna chave
+                df = df[df['Material'].notna()]
+
+                inseridos = 0
+                ignorados = 0
+
+                # 6) Itera apenas pelas colunas que precisamos
+                for _, row in df.iterrows():
+                    legado = row.to_dict()
+                    try:
+                        patrimonio = legado.get("Cód. barras")
+                        if patrimonio is None:
+                            patrimonio = 0
+                            continue
+                        descricao  = legado.get("Material")
+                        situacao   = legado.get("Situação")
+                        valor      = legado.get("Valor (R$)")
+
+
+                        # Validações básicas
+                        if pd.isna(patrimonio) or pd.isna(descricao):
+                            ignorados += 1
+                            continue
+                        patrimonio = int(patrimonio)
+
+                        # Evita duplicatas
+                        if MaterialPermanente.objects.filter(id_patrimonio=patrimonio).exists():
+                            ignorados += 1
+                            continue
+
+                        # Criação
+                        item = Item.objects.create(
+                            descricao=descricao,
+                            tipo="permanente"
+                        )
+                        MaterialPermanente.objects.create(
+                            id_item=item,
+                            valor=float(valor) if pd.notna(valor) else None,
+                            id_patrimonio=patrimonio,
+                            situacao=situacao if pd.notna(situacao) else None,
+                            data_registro=datetime.now().date()
+                        )
+                        inseridos += 1
+
+                    except Exception:
+                        ignorados += 1
+                        continue
+
+                messages.success(
+                    request,
+                    f"Importação concluída: {inseridos} itens inseridos, {ignorados} ignorados."
+                )
+                return redirect("estoque_atual")
+
+            except Exception as e:
+                messages.error(request, f"Erro ao processar arquivo: {e}")
+                return redirect("cadastro_item_perm")
+
+        # Formulário individual de cadastro
+        else:
+            descricao = request.POST.get("descricao")
+            valor = request.POST.get("valor")
+            patrimonio = request.POST.get("id_patrimonio")
+            situacao = request.POST.get("situacao")
+            data_baixa = request.POST.get("data_baixa")
+
+            item = Item.objects.create(
+                descricao=descricao,
+                tipo="permanente"
+            )
+
+            MaterialPermanente.objects.create(
+                id_item=item,
+                valor=float(valor),
+                id_patrimonio=int(patrimonio),
+                situacao=situacao,
+                data_baixa=data_baixa if data_baixa else None,
+                data_registro=datetime.now().date()
+            )
+
+            messages.success(request, "Item permanente cadastrado com sucesso!")
+            return redirect("cadastro_item_perm")
+
+    return render(request, "cadastro_item_perm.html")
+
+def cadastro_item_cons(request):
+    if request.method == 'POST':
+        descricao = request.POST.get('descricao')
+        qtd = int(request.POST.get('qtd'))
+        valor = float(request.POST.get('valor'))
+
+        # Cria o item com tipo fixo
+        novo_item = Item.objects.create(descricao=descricao, tipo='Consumo')
+
+        # Cria o material de consumo vinculado
+        MaterialConsumo.objects.create(
+            id_item=novo_item,
+            qtd=qtd,
+            valor=valor,
+            data_registro=timezone.now().date()
+        )
+
+        return redirect('inventario')
+
+    return render(request, 'cadastro_item_cons.html')

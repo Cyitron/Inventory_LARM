@@ -19,7 +19,7 @@
 
     {# Cadastro (admin): precisa da permissão id_permicao=1 #}
     {% if can_cadastro %}
-      <a href="{% url 'admin-cadastro' %}" class="menu-button">Cadastro</a>
+      <a href="{% url 'admin-cadastro' %}" class="menu-button">Gestão de Usuários</a>
     {% else %}
       <div class="menu-button disabled">Cadastro</div>
     {% endif %}
